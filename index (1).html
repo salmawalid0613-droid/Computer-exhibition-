@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>SchoolSafe</title>
+
+
+<style>
+
+/* =========================
+   GENERAL
+========================= */
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #edf4ff;
+    color: #17365d;
+}
+
+.app {
+    max-width: 950px;
+    margin: auto;
+    min-height: 100vh;
+    background: white;
+}
+
+
+/* =========================
+   SPLASH SCREEN
+========================= */
+
+#splash {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #246bfd, #69a7ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: splashFade 0.8s ease 1.8s forwards;
+}
+
+.splash-content {
+    text-align: center;
+    color: white;
+    animation: logoAppear 1s ease;
+}
+
+.logo-shield {
+    width: 190px;
+    height: 190px;
+    margin: auto;
+    display: block;
+}
+
+.splash-title {
+    font-size: 42px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.splash-title span {
+    color: #ffd43b;
+}
+
+.splash-tagline {
+    font-size: 17px;
+    margin-top: 8px;
+    opacity: 0.95;
+}
+
+
+@keyframes logoAppear {
+
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+@keyframes splashFade {
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+
+/* =========================
+   ONBOARDING
+========================= */
+
+#onboarding {
+    display: none;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f4f8ff, white);
+    padding: 35px 22px;
+}
+
+.onboarding-box {
+    max-width: 650px;
+    margin: auto;
+    text-align: center;
+}
+
+.onboarding-icon {
+    font-size: 55px;
+    margin-bottom: 5px;
+}
+
+.onboarding-box h1 {
+    font-size: 31px;
+    margin-bottom: 10px;
+}
+
+.onboarding-box p {
+    color: #60758d;
+    line-height: 1.6;
+}
+
+.progress {
+    width: 100%;
+    height: 7px;
+    background: #dce8ff;
+    border-radius: 10px;
+    margin: 28px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 50%;
+    background: #246bfd;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.onboarding-question {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.onboarding-question h2 {
+    font-size: 22px;
+    margin-top: 0;
+}
+
+.choice {
+    width: 100%;
+    padding: 15px;
+    margin: 8px 0;
+    border-radius: 13px;
+    border: 2px solid #e0e8f5;
+    background: #f7faff;
+    color: #17365d;
+    font-size: 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.choice:hover {
+    border-color: #246bfd;
+    background: #edf4ff;
+}
+
+.choice.selected {
+    border-color: #246bfd;
+    background: #dce9ff;
+}
+
+.next-button {
+    width: 100%;
+    padding: 16px;
+    margin-top: 18px;
+    border: none;
+    border-radius: 13px;
+    background: #246bfd;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    background: linear-gradient(135deg, #246bfd, #5b8df7);
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 34px;
+}
+
+header h1 span {
+    color: #ffd43b;
+}
+
+header p {
+    margin: 7px 0 0;
+    font-size: 16px;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+    padding: 25px;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+.welcome {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    color: #60758d;
+}
+
+.alert {
+    background: #fff4e5;
+    border-left: 6px solid #ff9f1c;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+}
+
+.alert strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.card {
+    border: none;
+    border-radius: 18px;
+    padding: 22px;
+    background: #f5f8ff;
+    cursor: pointer;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.card h3 {
+    margin: 0 0 8px;
+    font-size: 21px;
+}
+
+.card p {
+    margin: 0;
+    color: #60758d;
+    line-height: 1.4;
+}
+
+.fire {
+    border-left: 7px solid #ff595e;
+}
+
+.injury {
+    border-left: 7px solid #ffb703;
+}
+
+.earthquake {
+    border-left: 7px solid #8338ec;
+}
+
+.evacuation {
+    border-left: 7px solid #06a77d;
+}
+
+.quick {
+    border-left: 7px solid #00a8e8;
+}
+
+.quiz {
+    border-left: 7px solid #246bfd;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back {
+    border: none;
+    background: #eaf1ff;
+    color: #246bfd;
+    padding: 10px 17px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   INFORMATION
+========================= */
+
+.info-box {
+    background: #f7faff;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 15px 0;
+    border: 1px solid #dce8ff;
+}
+
+.info-box h3 {
+    margin-top: 0;
+}
+
+.info-box p {
+    line-height: 1.6;
+}
+
+li {
+    margin: 12px 0;
+    line-height: 1.5;
+}
+
+.dont {
+    background: #fff1f1;
+    border-left: 5px solid #ff595e;
+}
+
+.do {
+    background: #effbf6;
+    border-left: 5px solid #06a77d;
+}
+
+
+/* =========================
+   QUICK HELP
+========================= */
+
+.quick-choice {
+    width: 100%;
+    padding: 17px;
+    margin: 9px 0;
+    border: none;
+    border-radius: 13px;
+    background: #f1f6ff;
+    color: #17365d;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+}
+
+.quick-choice:hover {
+    background: #e3edff;
+}
+
+#quickResult {
+    margin-top: 18px;
+}
+
+.result {
+    padding: 18px;
+    background: #effbf6;
+    border-left: 5px solid #06a77d;
+    border-radius: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+.question {
+    background: #f7faff;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 17px;
+    border: 1px solid #dce8ff;
+}
+
+.question p {
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 13px;
+    border: 1px solid #ccd9ed;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.option:hover {
+    background: #edf4ff;
+}
+
+.option.selected {
+    background: #dce9ff;
+    border: 2px solid #246bfd;
+}
+
+.submit {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 13px;
+    background: #246bfd;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#score {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.footer-note {
+    text-align: center;
+    color: #71839a;
+    margin-top: 30px;
+    font-size: 13px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 650px) {
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 18px;
+    }
+
+    .splash-title {
+        font-size: 35px;
+    }
+
+    .logo-shield {
+        width: 160px;
+        height: 160px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SPLASH / LOGO
+========================= -->
+
+<div id="splash">
+
+    <div class="splash-content">
+
+        <!-- SCHOOLSAFE LOGO -->
+        <svg
+            class="logo-shield"
+            viewBox="0 0 200 200"
+            xmlns="http://www.w3.org/2000/svg">
+
+            <!-- Shield -->
+            <path
+                d="M100 8
+                   L178 38
+                   L168 112
+                   C160 154 130 180 100 190
+                   C70 180 40 154 32 112
+                   L22 38 Z"
+                fill="#ffffff"
+                stroke="#174ea6"
+                stroke-width="7"/>
+
+            <!-- Sky -->
+            <path
+                d="M39 48
+                   L161 48
+                   L153 108
+                   C147 137 126 157 100 169
+                   C74 157 53 137 47 108 Z"
+                fill="#69b9ff"/>
+
+            <!-- School building -->
+            <path
+                d="M58 91 L100 58 L142 91 Z"
+                fill="#ffb84d"/>
+
+            <rect
+                x="65"
+                y="88"
+                width="70"
+                height="55"
+                rx="4"
+                fill="#fff5d6"/>
+
+            <!-- Roof -->
+            <path
+                d="M55 91 L100 55 L145 91"
+                fill="none"
+                stroke="#ff595e"
+                stroke-width="8"/>
+
+            <!-- School windows -->
+            <rect x="75" y="98" width="13" height="13" rx="2" fill="#5b8df7"/>
+            <rect x="94" y="98" width="13" height="13" rx="2" fill="#5b8df7"/>
+            <rect x="113" y="98" width="13" height="13" rx="2" fill="#5b8df7"/>
+
+            <!-- Door -->
+            <rect
+                x="91"
+                y="120"
+                width="18"
+                height="23"
+                rx="3"
+                fill="#246bfd"/>
+
+            <!-- School flag -->
+            <line
+                x1="100"
+                y1="55"
+                x2="100"
+                y2="38"
+                stroke="#17365d"
+                stroke-width="3"/>
+
+            <path
+                d="M100 39 L122 45 L100 51 Z"
+                fill="#246bfd"/>
+
+            <!-- Student 1 -->
+            <circle cx="59" cy="73" r="12" fill="#f4a261"/>
+            <path
+                d="M48 72 Q59 57 70 72"
+                fill="#573b2d"/>
+
+            <path
+                d="M48 86 Q59 80 70 86 L70 111 L48 111 Z"
+                fill="#246bfd"/>
+
+            <!-- Student 2 -->
+            <circle cx="141" cy="73" r="12" fill="#f4a261"/>
+            <path
+                d="M130 71 Q141 57 152 71"
+                fill="#4a3025"/>
+
+            <path
+                d="M130 86 Q141 80 152 86 L152 111 L130 111 Z"
+                fill="#5b8df7"/>
+
+            <!-- Small safety shield -->
+            <path
+                d="M100 105
+                   L122 113
+                   L119 135
+                   C116 145 108 151 100 154
+                   C92 151 84 145 81 135
+                   L78 113 Z"
+                fill="#246bfd"
+                stroke="#ffd43b"
+                stroke-width="4"/>
+
+            <!-- Checkmark -->
+            <path
+                d="M89 129 L97 137 L112 120"
+                fill="none"
+                stroke="white"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-linejoin="round"/>
+
+        </svg>
+
+
+        <div class="splash-title">
+            School<span>Safe</span>
+        </div>
+
+        <div class="splash-tagline">
+            Stay Calm. Stay Safe.
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     GETTING STARTED
+========================= -->
+
+<div id="onboarding">
+
+    <div class="onboarding-box">
+
+        <div class="onboarding-icon">
+            🛡️
+        </div>
+
+        <h1 id="welcomeTitle">
+            Welcome to SchoolSafe!
+        </h1>
+
+        <p id="welcomeText">
+            Let's personalize your safety guide.
+        </p>
+
+
+        <div class="progress">
+
+            <div
+                id="progressBar"
+                class="progress-bar">
+            </div>
+
+        </div>
+
+
+        <!-- QUESTION 1 -->
+
+        <div
+            id="questionOne"
+            class="onboarding-question">
+
+            <h2>
+                Why are you using SchoolSafe?
+            </h2>
+
+            <button
+                class="choice"
+                onclick="chooseReason(this)">
+                🏫 I want to learn about school safety
+            </button>
+
+            <button
+                class="choice"
+                onclick="chooseReason(this)">
+                🚨 I want to know what to do in an emergency
+            </button>
+
+            <button
+                class="choice"
+                onclick="chooseReason(this)">
+                🧠 I want to test my safety knowledge
+            </button>
+
+            <button
+                class="choice"
+                onclick="chooseReason(this)">
+                📚 All of the above
+            </button>
+
+            <button
+                class="next-button"
+                onclick="goToQuestionTwo()">
+                Next →
+            </button>
+
+        </div>
+
+
+        <!-- QUESTION 2 -->
+
+        <div
+            id="questionTwo"
+            class="onboarding-question"
+            style="display:none;">
+
+            <h2>
+                What would you like to learn about?
+            </h2>
+
+            <button
+                class="choice"
+                onclick="chooseTopic(this)">
+                🔥 Fire Safety
+            </button>
+
+            <button
+                class="choice"
+                onclick="chooseTopic(this)">
+                🩹 Injuries & First Aid
+            </button>
+
+            <button
+                class="choice"
+                onclick="chooseTopic(this)">
+                🌎 Earthquakes
+            </button>
+
+            <button
+                class="choice"
+                onclick="chooseTopic(this)">
+                🚪 Evacuation
+            </button>
+
+            <button
+                class="choice"
+                onclick="chooseTopic(this)">
+                🌟 Everything
+            </button>
+
+            <button
+                class="next-button"
+                onclick="finishSetup()">
+                Get Started 🚀
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     MAIN APP
+========================= -->
+
+<div
+    id="mainApp"
+    class="app"
+    style="display:none;">
+
+
+<header>
+
+    <h1>
+        🛡️ School<span>Safe</span>
+    </h1>
+
+    <p>
+        Your School Emergency Assistant
+    </p>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<div
+    id="home"
+    class="screen active">
+
+
+    <div class="welcome">
+
+        <h2>
+            Stay Calm. Stay Safe.
+        </h2>
+
+        <p>
+            Learn what to do during common
+            school emergencies.
+        </p>
+
+    </div>
+
+
+    <div class="alert">
+
+        <strong>
+            ⚠️ Important
+        </strong>
+
+        Always follow your teacher's instructions
+        and your school's emergency plan.
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <button
+            class="card fire"
+            onclick="showScreen('fire')">
+
+            <h3>
+                🔥 Fire Emergency
+            </h3>
+
+            <p>
+                Learn how to respond safely when
+                there is a fire or fire alarm.
+            </p>
+
+        </button>
+
+
+        <button
+            class="card injury"
+            onclick="showScreen('injury')">
+
+            <h3>
+                🩹 Injury & First Aid
+            </h3>
+
+            <p>
+                Learn what to do when someone
+                is injured at school.
+            </p>
+
+        </button>
+
+
+        <button
+            class="card earthquake"
+            onclick="showScreen('earthquake')">
+
+            <h3>
+                🌎 Earthquake
+            </h3>
+
+            <p>
+                Learn how to protect yourself
+                during and after an earthquake.
+            </p>
+
+        </button>
+
+
+        <button
+            class="card evacuation"
+            onclick="showScreen('evacuation')">
+
+            <h3>
+                🚪 Evacuation
+            </h3>
+
+            <p>
+                Learn how to leave the school
+                building safely.
+            </p>
+
+        </button>
+
+
+        <button
+            class="card quick"
+            onclick="showScreen('quick')">
+
+            <h3>
+                🚨 Quick Help
+            </h3>
+
+            <p>
+                Choose an emergency and immediately
+                see the key actions.
+            </p>
+
+        </button>
+
+
+        <button
+            class="card quiz"
+            onclick="showScreen('quiz')">
+
+            <h3>
+                🧠 Safety Challenge
+            </h3>
+
+            <p>
+                Test your emergency-safety knowledge
+                and get your score.
+            </p>
+
+        </button>
+
+
+    </div>
+
+
+    <div class="footer-note">
+
+        SchoolSafe • Year 9 ICT Exhibition Project
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     FIRE
+========================= -->
+
+<div
+    id="fire"
+    class="screen">
+
+<button
+    class="back"
+    onclick="showScreen('home')">
+    ← Home
+</button>
+
+<h2>
+    🔥 Fire Emergency
+</h2>
+
+
+<div class="info-box do">
+
+<h3>
+    ✅ What to do
+</h3>
+
+<ol>
+
+<li>
+Stay calm and listen carefully to your teacher.
+</li>
+
+<li>
+Leave using the school's assigned evacuation route.
+</li>
+
+<li>
+Walk calmly and do not push others.
+</li>
+
+<li>
+Stay with your class or group.
+</li>
+
+<li>
+Go to the designated assembly point.
+</li>
+
+<li>
+Wait for instructions from teachers or
+emergency personnel.
+</li>
+
+</ol>
+
+</div>
+
+
+<div class="info-box dont">
+
+<h3>
+    ❌ What NOT to do
+</h3>
+
+<ul>
+
+<li>
+Do not use an elevator during an evacuation.
+</li>
+
+<li>
+Do not go back into the building.
+</li>
+
+<li>
+Do not hide instead of following the evacuation plan.
+</li>
+
+<li>
+Do not panic or push other students.
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="info-box">
+
+<h3>
+    💨 If there is smoke
+</h3>
+
+<p>
+
+Move away from smoke and follow the school's
+evacuation instructions.
+
+Stay as low as practical if smoke is present
+and get to a safe area.
+
+Tell a teacher or responsible adult immediately.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================
+     INJURY
+========================= -->
+
+<div
+    id="injury"
+    class="screen">
+
+<button
+    class="back"
+    onclick="showScreen('home')">
+    ← Home
+</button>
+
+<h2>
+    🩹 Injury & First Aid
+</h2>
+
+
+<div class="info-box do">
+
+<h3>
+    ✅ If someone is injured
+</h3>
+
+<ol>
+
+<li>
+Tell a teacher or responsible adult immediately.
+</li>
+
+<li>
+Keep the injured person calm.
+</li>
+
+<li>
+Ask other students to give the person space.
+</li>
+
+<li>
+Do not move the person unless there is immediate danger.
+</li>
+
+<li>
+Let a trained adult provide first aid.
+</li>
+
+<li>
+Follow the school's emergency instructions.
+</li>
+
+</ol>
+
+</div>
+
+
+<div class="info-box dont">
+
+<h3>
+    ❌ Remember
+</h3>
+
+<ul>
+
+<li>
+Do not try unfamiliar first-aid procedures.
+</li>
+
+<li>
+Do not give someone medicine unless an appropriate
+adult or medical professional directs it.
+</li>
+
+<li>
+Do not crowd around the injured person.
+</li>
+
+</ul>
+
+</div>
+
+
+<div class="info-box">
+
+<h3>
+    📢 The most important step
+</h3>
+
+<p>
+
+Get a teacher, school nurse, or another responsible
+adult as quickly as possible.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================
+     EARTHQUAKE
+========================= -->
+
+<div
+    id="earthquake"
+    class="screen">
+
+<button
+    class="back"
+    onclick="showScreen('home')">
+    ← Home
+</button>
+
+<h2>
+    🌎 Earthquake
+</h2>
+
+
+<div class="info-box do">
+
+<h3>
+    ✅ During the shaking
+</h3>
+
+<ol>
+
+<li>
+Stay calm.
+</li>
+
+<li>
+Drop down, cover your head and neck, and hold on.
+</li>
+
+<li>
+Stay away from windows and objects that could fall.
+</li>
+
+<li>
+If you are indoors, remain indoors until the shaking
+stops and instructions are given.
+</li>
+
+<li>
+Listen to your teacher.
+</li>
+
+</ol>
+
+</div>
+
+
+<div class="info-box">
+
+<h3>
+    🔎 After the shaking
+</h3>
+
+<ol>
+
+<li>
+Check yourself for injuries.
+</li>
+
+<li>
+Tell a teacher if you or someone else needs help.
+</li>
+
+<li>
+Expect possible aftershocks.
+</li>
+
+<li>
+Follow the school's evacuation or safety instructions.
+</li>
+
+<li>
+Stay with your class.
+</li>
+
+</ol>
+
+</div>
+
+
+<div class="info-box dont">
+
+<h3>
+    ❌ Avoid
+</h3>
+
+<ul>
+
+<li>
+Do not run toward windows.
+</li>
+
+<li>
+Do not use elevators.
+</li>
+
+<li>
+Do not leave the school area without permission.
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================
+     EVACUATION
+========================= -->
+
+<div
+    id="evacuation"
+    class="screen">
+
+<button
+    class="back"
+    onclick="showScreen('home')">
+    ← Home
+</button>
+
+<h2>
+    🚪 Evacuation
+</h2>
+
+
+<div class="info-box do">
+
+<h3>
+    ✅ Evacuation steps
+</h3>
+
+<ol>
+
+<li>
+Stop what you are doing and listen for instructions.
+</li>
+
+<li>
+Follow your teacher and the assigned evacuation route.
+</li>
+
+<li>
+Walk calmly. Do not push or run.
+</li>
+
+<li>
+Stay with your class.
+</li>
+
+<li>
+Go directly to the assembly point.
+</li>
+
+<li>
+Stay there until your teacher gives further instructions.
+</li>
+
+</ol>
+
+</div>
+
+
+<div class="info-box">
+
+<h3>
+    📋 At the assembly point
+</h3>
+
+<p>
+
+Stay with your class so teachers can check that
+everyone is accounted for.
+
+Do not leave the assembly area unless a responsible
+adult tells you to.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- =========================
+     QUICK HELP
+========================= -->
+
+<div
+    id="quick"
+    class="screen">
+
+<button
+    class="back"
+    onclick="showScreen('home')">
+    ← Home
+</button>
+
+<h2>
+    🚨 Quick Help
+</h2>
+
+<p>
+What is happening?
+</p>
+
+
+<button
+    class="quick-choice"
+    onclick="quickHelp('fire')">
+
+🔥 There is a fire or fire alarm
+
+</button>
+
+
+<button
+    class="quick-choice"
+    onclick="quickHelp('injury')">
+
+🩹 Someone is injured
+
+</button>
+
+
+<button
+    class="quick-choice"
+    onclick="quickHelp('earthquake')">
+
+🌎 The building is shaking
+
+</button>
+
+
+<button
+    class="quick-choice"
+    onclick="quickHelp('evacuation')">
+
+🚪 We are being evacuated
+
+</button>
+
+
+<div id="quickResult"></div>
+
+</div>
+
+
+
+<!-- =========================
+     QUIZ
+========================= -->
+
+<div
+    id="quiz"
+    class="screen">
+
+<button
+    class="back"
+    onclick="showScreen('home')">
+    ← Home
+</button>
+
+<h2>
+    🧠 Safety Challenge
+</h2>
+
+<p>
+Choose one answer for each question.
+</p>
+
+
+<div class="question">
+
+<p>
+1. What should you do when a fire alarm sounds?
+</p>
+
+<button
+    class="option"
+    onclick="selectAnswer(1,this,false)">
+    Hide in the classroom.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(1,this,true)">
+    Follow the school's evacuation instructions.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(1,this,false)">
+    Use the elevator.
+</button>
+
+</div>
+
+
+<div class="question">
+
+<p>
+2. Someone at school is injured.
+What should you do first?
+</p>
+
+<button
+    class="option"
+    onclick="selectAnswer(2,this,true)">
+    Tell a teacher or responsible adult.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(2,this,false)">
+    Ignore it.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(2,this,false)">
+    Move the person immediately.
+</button>
+
+</div>
+
+
+<div class="question">
+
+<p>
+3. What is a basic action during earthquake shaking?
+</p>
+
+<button
+    class="option"
+    onclick="selectAnswer(3,this,false)">
+    Run toward the windows.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(3,this,true)">
+    Drop, cover your head and neck, and hold on.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(3,this,false)">
+    Use the elevator.
+</button>
+
+</div>
+
+
+<div class="question">
+
+<p>
+4. During an evacuation, students should:
+</p>
+
+<button
+    class="option"
+    onclick="selectAnswer(4,this,true)">
+    Stay calm and remain with their class.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(4,this,false)">
+    Push to get outside first.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(4,this,false)">
+    Return to the classroom.
+</button>
+
+</div>
+
+
+<div class="question">
+
+<p>
+5. What should you do at the assembly point?
+</p>
+
+<button
+    class="option"
+    onclick="selectAnswer(5,this,false)">
+    Leave the school alone.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(5,this,true)">
+    Stay with your class and wait for instructions.
+</button>
+
+<button
+    class="option"
+    onclick="selectAnswer(5,this,false)">
+    Go back inside.
+</button>
+
+</div>
+
+
+<button
+    class="submit"
+    onclick="showScore()">
+
+    Check My Score
+
+</button>
+
+
+<div id="score"></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+/* =========================
+   APP START
+========================= */
+
+const setupKey = "schoolSafeSetupCompleteV2";
+
+
+window.addEventListener("load", function() {
+
+    setTimeout(function() {
+
+        document.getElementById("splash").style.display = "none";
+
+        if (localStorage.getItem(setupKey) === "yes") {
+
+            document.getElementById("mainApp").style.display = "block";
+
+        } else {
+
+            document.getElementById("onboarding").style.display = "block";
+
+        }
+
+    }, 2600);
+
+});
+
+
+/* =========================
+   ONBOARDING
+========================= */
+
+let selectedReason = "";
+let selectedTopic = "";
+
+
+function chooseReason(button) {
+
+    let buttons =
+        document.querySelectorAll("#questionOne .choice");
+
+    buttons.forEach(function(item) {
+
+        item.classList.remove("selected");
+
+    });
+
+    button.classList.add("selected");
+
+    selectedReason = button.innerText;
+
+}
+
+
+function goToQuestionTwo() {
+
+    if (selectedReason === "") {
+
+        alert("Please choose one option first.");
+
+        return;
+
+    }
+
+    document.getElementById("questionOne").style.display = "none";
+
+    document.getElementById("questionTwo").style.display = "block";
+
+    document.getElementById("progressBar").style.width = "100%";
+
+    document.getElementById("welcomeText").innerText =
+        "One more question, then you're ready to go!";
+
+}
+
+
+function chooseTopic(button) {
+
+    let buttons =
+        document.querySelectorAll("#questionTwo .choice");
+
+    buttons.forEach(function(item) {
+
+        item.classList.remove("selected");
+
+    });
+
+    button.classList.add("selected");
+
+    selectedTopic = button.innerText;
+
+}
+
+
+function finishSetup() {
+
+    if (selectedTopic === "") {
+
+        alert("Please choose one option first.");
+
+        return;
+
+    }
+
+    localStorage.setItem(setupKey, "yes");
+
+    document.getElementById("onboarding").style.display = "none";
+
+    document.getElementById("mainApp").style.display = "block";
+
+    showScreen("home");
+
+}
+
+
+/* =========================
+   MAIN APP NAVIGATION
+========================= */
+
+function showScreen(screenName) {
+
+    let screens =
+        document.querySelectorAll(".screen");
+
+    screens.forEach(function(screen) {
+
+        screen.classList.remove("active");
+
+    });
+
+    document
+        .getElementById(screenName)
+        .classList.add("active");
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   QUICK HELP
+========================= */
+
+function quickHelp(type) {
+
+    let result =
+        document.getElementById("quickResult");
+
+
+    if (type === "fire") {
+
+        result.innerHTML = `
+        <div class="result">
+
+        <strong>🔥 FIRE</strong><br><br>
+
+        Stay calm. Follow your teacher's
+        evacuation instructions.
+
+        Walk to the assigned safe area,
+        stay with your class, and do not
+        return inside until adults say it is safe.
+
+        </div>`;
+
+    }
+
+
+    if (type === "injury") {
+
+        result.innerHTML = `
+        <div class="result">
+
+        <strong>🩹 INJURY</strong><br><br>
+
+        Tell a teacher or responsible adult
+        immediately.
+
+        Keep the person calm and give them space.
+
+        Let a trained adult provide first aid.
+
+        </div>`;
+
+    }
+
+
+    if (type === "earthquake") {
+
+        result.innerHTML = `
+        <div class="result">
+
+        <strong>🌎 EARTHQUAKE</strong><br><br>
+
+        Stay calm.
+
+        Drop, cover your head and neck,
+        and hold on.
+
+        Stay away from windows and falling objects.
+
+        After the shaking stops, follow
+        school instructions.
+
+        </div>`;
+
+    }
+
+
+    if (type === "evacuation") {
+
+        result.innerHTML = `
+        <div class="result">
+
+        <strong>🚪 EVACUATION</strong><br><br>
+
+        Listen to your teacher.
+
+        Walk calmly using the assigned route.
+
+        Stay with your class and go to
+        the designated assembly point.
+
+        Wait for further instructions.
+
+        </div>`;
+
+    }
+
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+let answers = {};
+
+
+function selectAnswer(question, button, correct) {
+
+    let options =
+        button.parentElement.querySelectorAll(".option");
+
+
+    options.forEach(function(option) {
+
+        option.classList.remove("selected");
+
+    });
+
+
+    button.classList.add("selected");
+
+
+    answers[question] = correct;
+
+}
+
+
+function showScore() {
+
+    let total = 0;
+
+
+    for (let i = 1; i <= 5; i++) {
+
+        if (answers[i] === true) {
+
+            total++;
+
+        }
+
+    }
+
+
+    let message = "";
+
+
+    if (total === 5) {
+
+        message =
+            "Excellent! 🏆";
+
+    }
+
+    else if (total >= 3) {
+
+        message =
+            "Good job! 👍 Review the guide and try again.";
+
+    }
+
+    else {
+
+        message =
+            "Keep learning! 📚 Try the quiz again.";
+
+    }
+
+
+    document.getElementById("score").innerHTML =
+
+        "Score: " + total + " / 5<br>" + message;
+
+}
+
+</script>
+
+
+</body>
+
+</html>
